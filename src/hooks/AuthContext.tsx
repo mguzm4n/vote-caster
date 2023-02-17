@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export type User = {
   id: number,
+  username: string,
   email: string,
   role?: string,
 };
@@ -49,7 +50,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       return Promise.reject(error);
     }
-
+    axios.defaults.baseURL = "http://localhost:8000";
     axios.interceptors.response.use(
       response => response,
       handleError

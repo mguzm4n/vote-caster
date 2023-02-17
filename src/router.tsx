@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 
 import MainLayout from "./pages/MainLayout";
 import BodyLayout from "./pages/BodyLayout";
@@ -9,6 +9,9 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 
 import RegisterForm from "./pages/RegisterForm";
 import LoginForm from "./pages/LoginForm";
+import Dashboard from "./pages/Dashboard";
+import AuthProvider from "./hooks/AuthContext";
+import NewCollectionForm from "./pages/NewCollectionForm";
 
 const loginRoute = {
   path: "sign-in",
@@ -19,15 +22,30 @@ const registerRoute = {
   element: <RegisterForm />
 };
 
-const newVoteRoute = {
-  path: "new",
+
+const newCollectionRoute = {
+  path: "collection/new",
+  element: <NewCollectionForm />
+};
+
+const updateCollectionRoute = {
+  path: "collection/update",
   element: <CreateVoteForm />
+};
+
+const dashboardRoute = {
+  path: "dashboard",
+  element: <Dashboard />,
+  children: [
+    newCollectionRoute,
+    updateCollectionRoute,
+  ]
 };
 
 const protectedRoutes = {
   element: <ProtectedRoute />,
   children: [
-    newVoteRoute
+    dashboardRoute,
   ],
 };
 
@@ -38,17 +56,29 @@ const bodyRoute = {
   ]
 };
 
+const ContextWrapper = () => {
+  return(
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  )
+};
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <MainLayout />,
+    element: <ContextWrapper />,
     children: [
-      bodyRoute,
-      loginRoute,
-      registerRoute,
-    ]
+      {
+        path: "/",
+        element: <MainLayout />,
+        children: [
+          bodyRoute,
+          loginRoute,
+          registerRoute,
+        ]
+      }
+    ],
   },
-  
 ])
 
 export default router;

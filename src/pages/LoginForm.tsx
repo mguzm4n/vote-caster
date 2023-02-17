@@ -8,7 +8,7 @@ import { login } from "../services/authService";
 const LoginForm = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  const [authForm, setAuthForm] = useState({ email: '', password: ''});
+  const [authForm, setAuthForm] = useState({ username: '', password: ''});
 
   const setTxtInput = (key: string, value: string) => {
     setAuthForm({...authForm, [key]: value});
@@ -45,12 +45,12 @@ const LoginForm = () => {
             </p>
           </div>
           <div className="flex flex-col">
-            <label className="text-gray-600 text-sm" htmlFor="email">Email</label>
+            <label className="text-gray-600 text-sm" htmlFor="username">Nombre de usuario</label>
             <input 
-              onChange={e => setTxtInput('email', e.target.value)} 
-              value={authForm.email}
+              onChange={e => setTxtInput('username', e.target.value)} 
+              value={authForm.username}
               className="bg-gray-50 border-b border-b-gray-200 px-2 py-1.5 outline-none focus:ring-2 focus:rounded-md focus:ring-violet-400" 
-              name="email" id="email" type="email" />
+              name="username" id="username" type="username" />
           </div>
           <div className="flex flex-col">
             <label className="text-gray-600 text-sm"htmlFor="password">Contraseña</label>
@@ -59,7 +59,7 @@ const LoginForm = () => {
               className="bg-gray-50 border-b border-b-gray-200 px-2 py-1.5 outline-none focus:ring-2 focus:rounded-md focus:ring-violet-400" 
               name="password" id="password" type="password" />
           </div>
-          <p className="text-blue-700 text-sm font-bold">¿Contraseña olvidada?</p>
+          <p className="text-blue-700 text-sm font-bold">Olvidé mi usuario/contraseña</p>
           <div className="flex flex-col gap-2.5">
             <button disabled={mutation.isLoading}
               type="submit" className="disabled:opacity-50 px-3 py-1.5 text-sm font-medium tracking-wide text-white bg-violet-600 rounded-lg">
