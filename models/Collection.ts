@@ -3,6 +3,7 @@ import { IQuestion, questionSchema } from "./Question";
 import { IUserAnswer, userAnswerSchema } from "./UserAnswer";
 
 export interface ICollection {
+  name: string;
   createdAt: Date;
   author: string;
   questions?: IQuestion[];
@@ -10,6 +11,7 @@ export interface ICollection {
 }
 
 const collectionSchema = new Schema<ICollection>({
+  name: { type: String, required: true },
   createdAt: { type: Date, required: true },
   author: { type: String, required: true }, // username
   questions: { type: [questionSchema] },

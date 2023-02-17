@@ -2,7 +2,7 @@ import { type Request, type Response } from "express";
 import { Collection } from "../models/Collection";
 
 export async function getAll(req:Request, res:Response) {
-  return;
+  return res.send(await Collection.find());
 }
 
 export async function getById(req:Request, res:Response) {
