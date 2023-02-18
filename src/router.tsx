@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import MainLayout from "./pages/MainLayout";
 import BodyLayout from "./pages/BodyLayout";
@@ -12,6 +12,7 @@ import LoginForm from "./pages/LoginForm";
 import Dashboard from "./pages/Dashboard";
 import AuthProvider from "./hooks/AuthContext";
 import NewCollectionForm from "./pages/NewCollectionForm";
+import { useAuth } from "./hooks/useAuth";
 
 const loginRoute = {
   path: "sign-in",
@@ -64,6 +65,17 @@ const ContextWrapper = () => {
   )
 };
 
+const Public = () => {
+  const { user } = useAuth();
+  if (user) {
+    return <Navigate to="/" />
+  }
+  return(
+    <Outlet />
+  );
+};
+
+
 const router = createBrowserRouter([
   {
     element: <ContextWrapper />,
@@ -73,8 +85,13 @@ const router = createBrowserRouter([
         element: <MainLayout />,
         children: [
           bodyRoute,
-          loginRoute,
-          registerRoute,
+          {
+            element: <Public />,
+            children: [
+              loginRoute,
+              registerRoute,
+            ]
+          }
         ]
       }
     ],

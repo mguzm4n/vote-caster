@@ -1,27 +1,19 @@
 import { Outlet } from "react-router-dom";
-import CollectionCard from "../components/CollectionCard";
-
+import CollectionList from "../components/CollectionList";
+import { MdBallot, MdOutlineBallot } from 'react-icons/md'
+import { useState } from "react";
 const Dashboard = () => {
   return (<>
     <div className="flex flex-col gap-2">
-        <div>
-          Mis colecciones
-        </div>
-        <div className="p-2 w-ful h-full bg-gray-300 rounded">
-          <p>
-            ¡Aún no hay ninguna pregunta creada en esta colección!
-          </p>
-          <p>
-            Comienza <button className="underline inline">añadiendo al menos una</button> para enviar una votación.
-          </p>
-        </div>
-        <div className="grid grid-cols-4">
-          <CollectionCard to="collection/new">
-            <div className="hover:opacity-50 rounded-full bg-gray-400 w-12 h-12 font-bold text-3xl text-white flex items-start justify-center">
-              <span className="mt-0.5">+</span>
-            </div>
-          </CollectionCard>
-        </div>
+      <div className="group flex flex-col">
+        <p className="text-2xl flex gap-1 items-center">
+          <MdOutlineBallot className="mt-0.5 hidden group-hover:block" />
+          <MdBallot className="mt-0.5 block group-hover:hidden" />
+          Mis <span className="font-signika">colecciones</span>
+        </p>
+        <div className="transition-[width] group-hover:w-full hover:w-full w-[70%] h-2 bg-pink-500 rounded-tr rounded-br"></div>
+      </div>
+      <CollectionList />
     </div>
     <Outlet />
   </>)

@@ -5,9 +5,12 @@ import { RouterProvider } from 'react-router-dom';
 import router from './router';
 
 import './index.css';
-import AuthProvider from './hooks/AuthContext';
+import axios from 'axios';
 const queryClient = new QueryClient()
 
+
+axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.withCredentials = true;
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
       <QueryClientProvider client={queryClient}>

@@ -15,15 +15,11 @@ type Nullable<T> = T | null
 export type AuthCtx = {
   user: Nullable<User>,
   setUser: Dispatch<Nullable<User>>,
-  login: () => void,
-  logout: () => void,
 }
 
 export const AuthContext = createContext<AuthCtx>({
   user: null,
-  setUser: () => {},
-  login: () => {},
-  logout: () => {}
+  setUser: () => {}
 });
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -50,7 +46,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       return Promise.reject(error);
     }
-    axios.defaults.baseURL = "http://localhost:8000";
     axios.interceptors.response.use(
       response => response,
       handleError
@@ -66,7 +61,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser }}>
      { children }
     </AuthContext.Provider>
   )

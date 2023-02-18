@@ -1,5 +1,6 @@
-import { Mutation, useMutation } from "@tanstack/react-query";
+import { Mutation, useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { createCollection } from "../services/collectionService";
 
@@ -12,12 +13,17 @@ const initialCollectionForm = {
 export type CollectionForm = typeof initialCollectionForm;
 
 const NewCollectionForm = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [collectionName, setCollectionName] = useState("");
 
+  const queryClient = useQueryClient();
   const collectionMutation = useMutation(createCollection, {
     onSuccess: () => {
-      
+      navigate("/dashboard");
+      queryClient.invalidateQueries({
+        queryKey: [user?.username, "collections"]
+      });
     }
   });
 
