@@ -19,3 +19,12 @@ export async function createCollection(req: Request, res: Response) {
     return res.status(400).send(err);
   }
 }
+export async function deleteCollection(req: Request, res: Response) {
+  try {
+    await Collection.findByIdAndDelete(req.params.collectionId);
+    return res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(400);
+  }
+} 

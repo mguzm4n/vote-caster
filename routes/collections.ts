@@ -7,6 +7,8 @@ const collectionRouter = express.Router();
 
 // collection
 collectionRouter.post("/", collectionController.createCollection);
+collectionRouter.delete("/:collectionId", collectionController.deleteCollection);
+
 collectionRouter.get("/", collectionController.getAll);
 collectionRouter.get("/:collectionId", collectionController.getById);
 

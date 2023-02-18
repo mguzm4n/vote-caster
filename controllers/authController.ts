@@ -1,6 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { User } from "../models/User";
 import bcrypt from 'bcrypt';
+
+export function requireLogin(req: Request, res: Response, next: NextFunction) {
+  if (req.session) {
+    return next();
+  }
+  return res.sendStatus(401);
+}
 
 export async function login(req: Request, res: Response) {
   const { username, password: incomingPassword } = req.body;
@@ -15,12 +22,12 @@ export async function login(req: Request, res: Response) {
   });
 
   if (!userToLog) {
-    return res.status(401).send({ msg: "Invalid username or password" });
+    return res.status(400).send({ msg: "Invalid username or password" });
   }
 
   const acceptedLogin = bcrypt.compare(incomingPassword, userToLog.password);
   if (!acceptedLogin) {
-    return res.status(401).send({ msg: "Invalid username or password" });
+    return res.status(400).send({ msg: "Invalid username or password" });
   }
 
   const { id, roles } = userToLog;

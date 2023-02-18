@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models/User";
 import bcrypt from 'bcrypt';
+import { Collection } from "../models/Collection";
 
 export async function createUser(req: Request, res: Response) {
   const { 
@@ -30,4 +31,15 @@ export async function createUser(req: Request, res: Response) {
     console.log(e);
     return res.status(400).send({ message: 'Could not register any user. Try again.' })
   }
+}
+
+export async function getCollections(req: Request, res: Response) {
+  const username = req.params.username;
+  if (username !== req.session.user?.username) {
+    return res.sendStatus(403);
+  }
+
+  return res.send(
+    await Collection.find({ author: username }).exec()
+  );
 }
