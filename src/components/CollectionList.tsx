@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getUserCollections } from "../services/collectionService";
 import CollectionCard from "./CollectionCard";
-
+import { BsPlusLg } from "react-icons/bs";
 const CollectionList = () => {
   const { user } = useAuth();
   const collectionsQuery = useQuery({
@@ -23,7 +23,7 @@ const CollectionList = () => {
   return (<>
     {(collections.length == 0) && <div className="p-2 w-ful h-full bg-gray-300 rounded">
       <p>¡Aún no hay ninguna pregunta creada en esta colección!</p>
-      <p>Comienza <Link to="collection/new" className="underline inline">añadiendo al menos una</Link> para enviar una votación.</p>
+      <p>Comienza <Link to="collections/new" className="underline inline">añadiendo al menos una</Link> para enviar una votación.</p>
     </div>}
     <div className="grid grid-cols-4 gap-3">
       {
@@ -33,8 +33,8 @@ const CollectionList = () => {
       }
       <CollectionCard>
         <div className="w-full h-full flex flex-col items-center justify-center">
-          <Link title="Crear colección" to="collection/new" className="hover:opacity-50 rounded-full bg-gray-400 w-12 h-12 font-bold text-3xl text-white flex items-start justify-center">
-            +
+          <Link title="Crear colección" to="collections/new" className="hover:opacity-50 rounded-full bg-gray-400 w-12 h-12 font-bold text-3xl text-white flex items-center justify-center">
+            <BsPlusLg className="text-2xl" />
           </Link>
         </div>
       </CollectionCard>

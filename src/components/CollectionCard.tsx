@@ -5,10 +5,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../hooks/useAuth";
 import { deleteCollection } from "../services/collectionService";
 
+export type Question = {
+  _id: string,
+  name: string,
+  multipleChoice: boolean,
+  displaySymbol: string,
+};
+
 export type Collection = {
   _id: string,
   name: string,
   createdAt: string,
+  questions: Question[],
 };
 
 interface CollectionCardProps {
@@ -35,7 +43,7 @@ const CollectionCard = ({ children, collection }: CollectionCardProps) => {
     if (!wantDeleted) {
       return;
     }
-    if (collection){
+    if (collection) {
       collectionMutation.mutate(collection._id);
     }
   };
@@ -47,7 +55,7 @@ const CollectionCard = ({ children, collection }: CollectionCardProps) => {
       }
       {collection && 
         <div className="w-full h-full flex flex-col justify-between">
-          <Link to="">{ collection.name }</Link>
+          <Link to={`/collections/${collection._id}`}>{ collection.name }</Link>
           <button onClick={onDeleteCollection}
             title="Eliminar colección" className="pointer-events-auto self-end hover:shadow-none hover:opacity-50 w-7 h-7 shadow bg-transparent rounded-full flex items-center justify-center">
             <AiFillDelete className="fill-rose-600 text-lg" />

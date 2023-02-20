@@ -17,3 +17,8 @@ export function getUserCollections(username: string) {
   return axios
     .get<Collection[]>(`users/${username}/collections`);
 }
+
+export function getCollection(username: string, collectionId: string) {
+  return axios
+    .get<Collection>("collections/" + collectionId);
+}

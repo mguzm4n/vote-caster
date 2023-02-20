@@ -9,7 +9,7 @@ const Dashboard = () => {
         <p className="text-2xl flex gap-1 items-center">
           <MdOutlineBallot className="mt-0.5 hidden group-hover:block" />
           <MdBallot className="mt-0.5 block group-hover:hidden" />
-          Mis <span className="font-signika">colecciones</span>
+          Mis <span className="font-signika mt-1">colecciones</span>
         </p>
         <div className="transition-[width] group-hover:w-full hover:w-full w-[70%] h-2 bg-pink-500 rounded-tr rounded-br"></div>
       </div>

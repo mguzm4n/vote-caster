@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import AuthProvider from "./hooks/AuthContext";
 import NewCollectionForm from "./pages/NewCollectionForm";
 import { useAuth } from "./hooks/useAuth";
+import CollectionView from "./pages/CollectionView";
 
 const loginRoute = {
   path: "sign-in",
@@ -25,13 +26,18 @@ const registerRoute = {
 
 
 const newCollectionRoute = {
-  path: "collection/new",
+  path: "collections/new",
   element: <NewCollectionForm />
 };
 
 const updateCollectionRoute = {
-  path: "collection/update",
+  path: "collections/update",
   element: <CreateVoteForm />
+};
+
+const viewCollectionRoute = {
+  path: "collections/:collectionId",
+  element: <CollectionView />
 };
 
 const dashboardRoute = {
@@ -39,7 +45,7 @@ const dashboardRoute = {
   element: <Dashboard />,
   children: [
     newCollectionRoute,
-    updateCollectionRoute,
+    updateCollectionRoute
   ]
 };
 
@@ -47,6 +53,7 @@ const protectedRoutes = {
   element: <ProtectedRoute />,
   children: [
     dashboardRoute,
+    viewCollectionRoute,
   ],
 };
 
