@@ -1,8 +1,9 @@
 import { Question } from "../components/CollectionCard";
 
-type Action = 
- | { type: "toggleForm" }
- | { type: "add", payload: { question: Question } }
+export type Action = 
+  | { type: "toggleForm" }
+  | { type: "add", payload: { question: Question } }
+  | { type: "delete", payload: { id: string } }
  ;
 
 
@@ -31,7 +32,14 @@ export const questionsReducer = (state: State, action: Action): State => {
       return {
         ...state,
         createdNew: true,
-        questions: [action.payload.question, ...state.questions]
+        questions: [...state.questions, action.payload.question]
+      }
+
+    case "delete":
+      return {
+        ...state,
+        createdNew: false,
+        questions: state.questions.filter(q => q._id !== action.payload.id),
       }
   
     default:

@@ -4,7 +4,6 @@ import { useReducer } from "react";
 
 import { type Question } from "./CollectionCard";
 import { questionsReducer, initialState } from "../hooks/questionsReducer";
-import QuestionForm from "./QuestionForm";
 import { useMutation } from "@tanstack/react-query";
 import { createQuestion } from "../services/questionService";
 
@@ -46,10 +45,12 @@ const QuestionList = ({ questions, collectionId }: QuestionListProps) => {
       
       <div className="flex flex-col gap-2 mt-2">
         {state.questions.map((question, idx) => {
-          if (state.createdNew && idx == 0) {
-            return <QuestionView shouldEdit={true} key={question._id} question={question} />
-          }
-          return <QuestionView key={question._id} question={question} />
+          const newlyCreated = state.createdNew && (idx == state.questions.length - 1);
+          return <QuestionView
+            shouldExpand={newlyCreated}
+            dispatch={dispatch} 
+            key={question._id} 
+            question={question} />
         })}
       </div>
     </div>

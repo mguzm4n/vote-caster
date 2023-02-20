@@ -2,17 +2,15 @@ import { Outlet } from "react-router-dom";
 import CollectionList from "../components/CollectionList";
 import { MdBallot, MdOutlineBallot } from 'react-icons/md'
 import { useState } from "react";
+import UnderlinedTitle from "../components/UnderlinedTitle";
 const Dashboard = () => {
   return (<>
     <div className="flex flex-col gap-2">
-      <div className="group flex flex-col">
-        <p className="text-2xl flex gap-1 items-center">
-          <MdOutlineBallot className="mt-0.5 hidden group-hover:block" />
-          <MdBallot className="mt-0.5 block group-hover:hidden" />
-          Mis <span className="font-signika mt-1">colecciones</span>
-        </p>
-        <div className="transition-[width] group-hover:w-full hover:w-full w-[70%] h-2 bg-pink-500 rounded-tr rounded-br"></div>
-      </div>
+      <UnderlinedTitle
+        FillIcon={<MdBallot className="text-2xl mt-0.5 ml-1" />}
+        OutlineIcon={<MdOutlineBallot className="text-2xl mt-0.5 ml-1"  />}
+        Text={<>Mis <span className="font-signika mt-1">colecciones</span></>}
+       />
       <CollectionList />
     </div>
     <Outlet />

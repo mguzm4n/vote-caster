@@ -5,3 +5,8 @@ export function createQuestion(questionForm: Partial<Question>, collectionId: st
   return axios
     .post<Question>(`collections/${collectionId}/questions`, questionForm);
 }
+
+export function deleteQuestion(questionId: String, collectionId: string) {
+  return axios
+    .delete<Question>(`collections/${collectionId}/questions/${questionId}`);
+}

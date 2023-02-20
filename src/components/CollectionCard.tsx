@@ -10,6 +10,7 @@ export type Question = {
   name: string,
   multipleChoice: boolean,
   displaySymbol: string,
+  alternatives: string[],
 };
 
 export type Collection = {

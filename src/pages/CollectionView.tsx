@@ -1,8 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import QuestionList from "../components/QuestionList";
+import UnderlinedTitle from "../components/UnderlinedTitle";
 import { useAuth } from "../hooks/useAuth";
 import { getCollection } from "../services/collectionService";
+
+import { BsFillCollectionFill, BsCollection } from 'react-icons/bs';
+import { ReactNode } from "react";
 
 const CollectionView = () => {
   const { collectionId } = useParams();
@@ -27,8 +31,12 @@ const CollectionView = () => {
   }
 
   return (
-    <div>
-      { collection.name }
+    <div className="flex flex-col gap-4">
+      <UnderlinedTitle
+        FillIcon={<BsFillCollectionFill className="text-lg mt-1.5 ml-1.5" />}
+        OutlineIcon={<BsCollection className="text-lg mt-1.5 ml-1.5" />}
+        Text={collection.name}
+       />
       <QuestionList collectionId={collectionId!} questions={collection.questions} />
     </div>
   );
