@@ -9,6 +9,7 @@ export function createAlternative(collectionId: string, questionId: string, alte
 
 
 export function deleteAlternative(collectionId: string, questionId: string, index: number) {
+  console.log(`collections/${collectionId}/questions/${questionId}/alternatives/${index}`);
   return axios
     .delete(`collections/${collectionId}/questions/${questionId}/alternatives/${index}`);
 }

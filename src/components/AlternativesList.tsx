@@ -12,10 +12,10 @@ const AlternativesList = ({ alternatives, questionId }: AlternativesListProps) =
     alternatives: alternatives,
   })
   return (
-    <div className="w-[95%] flex flex-col items-center gap-2">
+    <div className="w-[90%] flex flex-col justify-center items-center gap-2 bg-white rounded-xl p-2">
       <AlternativeForm alternatives={state.alternatives} questionId={questionId} dispatch={dispatch} />
       {state.alternatives.map((a, idx) => {
-        return <Alternative alternativeIndex={idx} questionId={questionId} dispatch={dispatch} alternative={a} />
+        return <Alternative key={a} alternativeIndex={idx} questionId={questionId} dispatch={dispatch} alternative={a} />
       })}
     </div>
   )

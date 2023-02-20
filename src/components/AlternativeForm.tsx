@@ -31,8 +31,8 @@ const AlternativeForm = ({ alternatives, questionId, dispatch }: AlternativeProp
   };
 
   return (
-    <div className="flex gap-2 items-center">
-      <input className="bg-transparent border-2 border-b-sky-400 px-2 py-1" 
+    <div className="w-full justify-center flex gap-2 items-center">
+      <input className="w-[80%] bg-transparent border-b-4 border-b-sky-400 px-2 py-1" 
         type="text"placeholder="Escribe una nueva alternativa..."
         value={alternativeName} onChange={e => setAlternativeName(e.currentTarget.value)} />
       <button onClick={handleSaveAlternative} title="Guardar..." className="flex justify-center  items-center bg-sky-400 text-white text-xl p-0.5 rounded w-7 h-7">

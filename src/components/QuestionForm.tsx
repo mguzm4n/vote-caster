@@ -18,10 +18,10 @@ const QuestionForm = ({ question, shouldEdit }: QuestionFormProps) => {
   }, [nameRef, shouldEdit]);
   
   return (
-    <form onSubmit={(e) => {e.preventDefault()}} className="bg-gray-200 rounded p-2 mb-2 flex flex-col gap-2 items-center">
+    <form onSubmit={(e) => {e.preventDefault()}} className="bg-gray-200 rounded p-2 mb-2 flex flex-col items-center gap-4">
       <fieldset className="w-full">
         <label htmlFor="name" className="text-sm">Nombre de la opción/pregunta</label>
-        <input className="w-full bg-white rounded px-2 py-1 focus:outline-none focus:outline-2 focus:outline-indigo-600"
+        <input className="w-full bg-white rounded p-3 focus:outline-none focus:outline-2 focus:outline-indigo-600"
           ref={nameRef} id="name" type="text"
           defaultValue={question.name}
           placeholder="Escribir título de la pregunta..."

@@ -38,9 +38,9 @@ const Alternative = ({ alternative, alternativeIndex, questionId, dispatch }: Al
 
 
   return (
-    <div className="flex gap-2 items-center">
-      <p>{alternative}</p>
-      <button onClick={handleSaveAlternative} title={onEdit ? "Guardar" : "Editar"}
+    <div className="w-full flex gap-2 items-center justify-center">
+      <p className="w-[70%]">{alternative}</p>
+      <button onClick={handleSaveAlternative} title={onEdit ? "Guardar..." : "Editar..."}
         className="flex justify-center items-center bg-sky-400 rounded-full w-6 h-6">
         <AiOutlineEdit className="text-white text-xs" />
       </button>
