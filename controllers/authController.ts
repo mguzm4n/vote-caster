@@ -3,7 +3,7 @@ import { User } from "../models/User";
 import bcrypt from 'bcrypt';
 
 export function requireLogin(req: Request, res: Response, next: NextFunction) {
-  if (req.session) {
+  if (req.session.user) {
     return next();
   }
   return res.sendStatus(401);

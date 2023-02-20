@@ -3,7 +3,7 @@ import { Collection } from "../models/Collection";
 
 import * as questionService from '../services/questionService';
 
-const questionFields = ['author', ' multipleChoice', 'displaySymbol', 'alternatives'];
+const questionFields = ['name'];
 
 function isRequestComplete(object: any, fields: string[]) {
   for (let field of fields) {
@@ -30,20 +30,12 @@ export async function createQuestions(req: Request, res: Response) {
   }
 
   const collectionId = foundCollection.id;
-
-  let responseBody: any | null;
   
-  if (Array.isArray(req.body)) {
-    if (!isRequestListComplete(req.body, questionFields)) {
-      return res.status(400).send({ message: "Missing fields for questions"});
-    }
-    responseBody = await questionService.createMany(req.body, collectionId);
-  } else {
-    if (!isRequestComplete(req.body, questionFields)) {
+  if (!req.body.name) {
       return res.status(400).send({ message: "Missing fields for question"});
     }
-    responseBody = await questionService.createOne(req.body, collectionId);
-  }
+
+  let responseBody = await questionService.createOne(req.body, collectionId);
 
   if (!responseBody) {
     return res.status(400).send({ message : "DB error, no data updated"});

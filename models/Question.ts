@@ -10,8 +10,8 @@ export interface IQuestion {
 
 export const questionSchema = new Schema<IQuestion>({
   name: { type: String, required: true },
-  multipleChoice: { type: Boolean, required: true },
-  displaySymbol: { type: String, required: true },
+  multipleChoice: { type: Boolean, default: false },
+  displaySymbol: { type: String, default: "decimal" },
   alternatives: { type: [String] }, // mongo automatically defaults to []
   editable: { type: Boolean, default: false },
 });
