@@ -3,26 +3,27 @@ import { BsPlusLg } from 'react-icons/bs';
 import { useReducer } from "react";
 
 import { type Question } from "./CollectionCard";
-import { questionsReducer, initialState } from "../hooks/questionsReducer";
+import { questionsReducer, initialState, QuestionState } from "../hooks/questionsReducer";
 import { useMutation } from "@tanstack/react-query";
 import { createQuestion } from "../services/questionService";
+import QuestionToolButtons from "./QuestionToolButtons";
 
 interface QuestionListProps {
-  questions: Question[];
+  questions: QuestionState[];
   collectionId: string;
 }
 
 const QuestionList = ({ questions, collectionId }: QuestionListProps) => {
   const [state, dispatch] = useReducer(questionsReducer, { 
     ...initialState,
-    questions: questions,
+    questions: questions.map(q => ({ ...q, expand: false })),
   });
 
   const questionMutation = useMutation({
     mutationFn: (variables: Partial<Question>) => createQuestion(variables, collectionId),
     onSuccess: (response) => {
       const question = response.data;
-      dispatch({ type: "add", payload: { question } });
+      dispatch({ type: "add", payload: { question: {...question, expand: true} } });
     }
   })
 
@@ -33,21 +34,20 @@ const QuestionList = ({ questions, collectionId }: QuestionListProps) => {
   };  
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col gap-2">
+      {state.questions.length > 0 && <QuestionToolButtons dispatch={dispatch} />}
       {state.questions.length == 0 && 
         <div>
           Intenta añadir una nueva opción o pregunta a esta colección.
         </div>}
       <button disabled={questionMutation.isLoading} onClick={handleAddQuestionBtn} title="Crear colección" 
-        className="group w-full py-3 rounded bg-gray-300 flex justify-center">
+        className="mt-2 group w-full py-3 rounded bg-gray-300 flex justify-center">
         <BsPlusLg className="group-disabled:animate-spin text-xl text-white" />
       </button>
       
-      <div className="flex flex-col gap-2 mt-2">
+      <div className="flex flex-col gap-2">
         {state.questions.map((question, idx) => {
-          const newlyCreated = state.createdNew && (idx == state.questions.length - 1);
           return <QuestionView
-            shouldExpand={newlyCreated}
             dispatch={dispatch} 
             key={question._id} 
             question={question} />

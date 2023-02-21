@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
+import { QuestionState } from "../hooks/questionsReducer";
 import AlternativesList from "./AlternativesList";
 import { Question } from "./CollectionCard";
 
 interface QuestionFormProps {
-  question: Question;
+  question: QuestionState;
 }
 
 const QuestionForm = ({ question }: QuestionFormProps) => {

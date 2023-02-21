@@ -1,22 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { AiFillDelete, AiOutlineExpandAlt, AiOutlineShrink } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-import { type Action } from "../hooks/questionsReducer";
-import { useToolActions } from "../hooks/useToolActions";
+import { type QuestionState, type Action } from "../hooks/questionsReducer";
 import { deleteQuestion } from "../services/questionService";
-import { Question } from "./CollectionCard";
 import QuestionForm from "./QuestionForm";
 
 interface QuestionViewProps {
-  question: Question;
-  shouldExpand: boolean;
+  question: QuestionState;
   dispatch: React.Dispatch<Action>;
 }
 
-const QuestionView = ({ question, shouldExpand = false, dispatch }: QuestionViewProps) => {
-  const [expanded, setExpanded] = useState(shouldExpand);
-  const { options } = useToolActions();
+const QuestionView = ({ question, dispatch }: QuestionViewProps) => {
   const { collectionId } = useParams();
   const deleteMutation = useMutation({
     mutationFn: () => deleteQuestion(question._id, collectionId!),
@@ -31,9 +26,9 @@ const QuestionView = ({ question, shouldExpand = false, dispatch }: QuestionView
   }
 
   const handleExpand = () => {
-    setExpanded(prevEx => !prevEx);
+    dispatch({ type: "expand", payload: { question, set: !question.expand } });
   }
-  
+
   return (
   <div className="flex flex-col gap-1">
     <div className="flex flex-row gap-2">
@@ -47,7 +42,7 @@ const QuestionView = ({ question, shouldExpand = false, dispatch }: QuestionView
           onClick={handleExpand}
           title="Ver pregunta completa"
           className="disabled:animate-pulse w-full flex justify-center items-center px-2 bg-sky-200 rounded">
-          {expanded 
+          {question.expand 
            ? <AiOutlineShrink className="fill-sky-500 text-lg" />
            : <AiOutlineExpandAlt className=" fill-sky-500 text-lg" />
           }
@@ -61,7 +56,7 @@ const QuestionView = ({ question, shouldExpand = false, dispatch }: QuestionView
         </button>
       </div>
     </div>
-    {(expanded || options.expandAll) && <QuestionForm question={question} />}
+    {question.expand && <QuestionForm question={question} />}
   </div>)
 };
 

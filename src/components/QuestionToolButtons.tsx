@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbArrowRightTail } from 'react-icons/tb';
-import { useToolActions } from "../hooks/useToolActions";
+import { Action } from "../hooks/questionsReducer";
 
-const QuestionToolButtons = () => {
-  const { options, setOptions } = useToolActions();
+const QuestionToolButtons = ({ dispatch }: { dispatch : React.Dispatch<Action> }) => {
+  const [options, setOptions] = useState({
+    expandAll: false,
+  });
+
   const handleExpandAll = () => {
-    setOptions(prev => (
-      { ...prev, expandAll: !prev.expandAll }
-    ));
+    setOptions(prev => 
+      ({ ...prev, expandAll: !prev.expandAll })
+    );
   };
+
+  useEffect(() => {
+    dispatch({ 
+      type: "expandAll", 
+      payload: { set: options.expandAll } 
+    });
+  }, [options.expandAll]);
+
   return (
     <div className="group max-w-min flex items-center gap-2">
       <TbArrowRightTail className="group-hover:animate-bounce-x text-xl ml-2" />

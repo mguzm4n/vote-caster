@@ -53,10 +53,7 @@ const CollectionView = () => {
           Creado a las { createdAt }.
          </p>
       </div>
-      <ToolActionsProvider>
-        {collection.questions.length > 0 && <QuestionToolButtons />}
-        <QuestionList collectionId={collectionId!} questions={collection.questions} />
-      </ToolActionsProvider>
+      <QuestionList collectionId={collectionId!} questions={collection.questions} />
     </div>
   );
 };

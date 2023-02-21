@@ -13,3 +13,9 @@ export function register(registerForm: RegisterForm) {
     .post("users", registerForm)
     .then(response => response.data);
 }
+
+
+export function logout() {
+  return axios
+    .delete("auth/logout");
+}
