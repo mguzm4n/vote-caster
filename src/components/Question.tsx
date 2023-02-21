@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillDelete, AiOutlineExpandAlt, AiOutlineShrink } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { type Action } from "../hooks/questionsReducer";
+import { useToolActions } from "../hooks/useToolActions";
 import { deleteQuestion } from "../services/questionService";
 import { Question } from "./CollectionCard";
 import QuestionForm from "./QuestionForm";
@@ -15,7 +16,7 @@ interface QuestionViewProps {
 
 const QuestionView = ({ question, shouldExpand = false, dispatch }: QuestionViewProps) => {
   const [expanded, setExpanded] = useState(shouldExpand);
-
+  const { options } = useToolActions();
   const { collectionId } = useParams();
   const deleteMutation = useMutation({
     mutationFn: () => deleteQuestion(question._id, collectionId!),
@@ -60,7 +61,7 @@ const QuestionView = ({ question, shouldExpand = false, dispatch }: QuestionView
         </button>
       </div>
     </div>
-    {expanded && <QuestionForm question={question} shouldEdit={expanded} />}
+    {(expanded || options.expandAll) && <QuestionForm question={question} />}
   </div>)
 };
 
