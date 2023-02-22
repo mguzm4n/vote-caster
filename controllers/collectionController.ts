@@ -1,5 +1,7 @@
 import { type Request, type Response } from "express";
-import { Collection } from "../models/Collection";
+import { HydratedDocument } from "mongoose";
+import { z } from "zod";
+import { Collection, ICollection } from "../models/Collection";
 
 export async function getAll(req:Request, res:Response) {
   return res.send(await Collection.find());
@@ -22,6 +24,33 @@ export async function createCollection(req: Request, res: Response) {
 export async function deleteCollection(req: Request, res: Response) {
   try {
     await Collection.findByIdAndDelete(req.params.collectionId);
+    return res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(400);
+  }
+} 
+
+export async function publishCollection(req: Request, res: Response) {
+  const { publish } = req.body;
+  if (!publish) {
+    return res.sendStatus(400);
+  }
+  const published = z.boolean().safeParse(publish);
+  
+  try {
+    const collection: HydratedDocument<ICollection> | null = await Collection.findById(req.params.collectionId);
+    if (!collection) {
+      return res.sendStatus(500);
+    }
+
+    if (collection.author !== req.session.user?.username) {
+      return res.sendStatus(403);
+    }
+
+    collection.isPublished = published.success;
+    await collection.save();
+    
     return res.sendStatus(200);
   } catch (err) {
     console.log(err);

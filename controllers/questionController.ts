@@ -43,3 +43,18 @@ export async function createQuestions(req: Request, res: Response) {
 
   return res.send(responseBody);
 }
+
+export async function deleteQuestion(req: Request, res: Response) {
+  const { collectionId, questionId } = req.params;
+  try {
+    await Collection.findByIdAndUpdate(collectionId, {
+      $pull: {
+        questions: { _id: questionId }
+      }
+    })
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({ message: "Couldn't delete Question item from Collection" });
+  }
+}

@@ -8,6 +8,7 @@ export interface ICollection {
   author: string;
   questions?: IQuestion[];
   answers?: IUserAnswer[];
+  isPublished: boolean;
 }
 
 const collectionSchema = new Schema<ICollection>({
@@ -16,6 +17,7 @@ const collectionSchema = new Schema<ICollection>({
   author: { type: String, required: true }, // username
   questions: { type: [questionSchema] },
   answers: { type: [userAnswerSchema] },
+  isPublished: { type: Boolean, default: false },
 });
 
 export const Collection = mongoose.model<ICollection>('Collection', collectionSchema);
