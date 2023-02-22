@@ -6,12 +6,10 @@ import { useAuth } from "../hooks/useAuth";
 import { getCollection } from "../services/collectionService";
 
 import { BsFillCollectionFill, BsCollection } from 'react-icons/bs';
-import { RiTimeFill } from 'react-icons/ri';
 
-import { ReactNode, useMemo } from "react";
-import QuestionToolButtons from "../components/QuestionToolButtons";
-import ToolActionsProvider from "../hooks/ToolActionsContext";
+import { useMemo } from "react";
 import { formatDate } from "../utils/time";
+import PublishButton from "../components/PublishButton";
 
 const CollectionView = () => {
   const { collectionId } = useParams();
@@ -54,6 +52,8 @@ const CollectionView = () => {
          </p>
       </div>
       <QuestionList collectionId={collectionId!} questions={collection.questions} />
+      
+      <PublishButton isPublished={collection.isPublished} collectionId={collection._id} />
     </div>
   );
 };

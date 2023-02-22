@@ -18,6 +18,7 @@ export type Collection = {
   name: string,
   createdAt: string,
   questions: Question[],
+  isPublished: boolean,
 };
 
 interface CollectionCardProps {

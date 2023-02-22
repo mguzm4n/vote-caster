@@ -7,9 +7,10 @@ import { questionsReducer, initialState, QuestionState } from "../hooks/question
 import { useMutation } from "@tanstack/react-query";
 import { createQuestion } from "../services/questionService";
 import QuestionToolButtons from "./QuestionToolButtons";
+import PublishButton from "./PublishButton";
 
 interface QuestionListProps {
-  questions: QuestionState[];
+  questions: Question[];
   collectionId: string;
 }
 
