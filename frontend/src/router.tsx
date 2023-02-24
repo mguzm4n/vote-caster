@@ -14,6 +14,7 @@ import AuthProvider from "./hooks/AuthContext";
 import NewCollectionForm from "./pages/NewCollectionForm";
 import { useAuth } from "./hooks/useAuth";
 import CollectionView from "./pages/CollectionView";
+import VotingView from "./pages/VotingView";
 
 const loginRoute = {
   path: "sign-in",
@@ -40,6 +41,7 @@ const viewCollectionRoute = {
   element: <CollectionView />
 };
 
+
 const dashboardRoute = {
   path: "dashboard",
   element: <Dashboard />,
@@ -60,6 +62,7 @@ const protectedRoutes = {
 const bodyRoute = {
   element: <BodyLayout />,
   children: [
+    { path: "/voting/:collectionId", element: <VotingView/> },
     protectedRoutes,
   ]
 };
@@ -98,7 +101,7 @@ const router = createBrowserRouter([
               loginRoute,
               registerRoute,
             ]
-          }
+          },
         ]
       }
     ],

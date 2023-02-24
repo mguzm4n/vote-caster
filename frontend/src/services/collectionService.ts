@@ -25,7 +25,7 @@ export function getCollection(username: string, collectionId: string) {
 
 export function publishCollection(collectionId: string, publish: boolean) {
   return axios
-    .put<Collection>(`collections/${collectionId}/publish` + collectionId, {
+    .put<Collection>(`collections/${collectionId}/publish`, {
       publish
     });
 }

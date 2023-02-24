@@ -33,13 +33,13 @@ export async function deleteCollection(req: Request, res: Response) {
 
 export async function publishCollection(req: Request, res: Response) {
   const { publish } = req.body;
-  if (!publish) {
-    return res.sendStatus(400);
+  if (publish == null) {
+    return res.status(400).send("A publish state to replace is needed");
   }
   const published = z.boolean().safeParse(publish);
   
   try {
-    const collection: HydratedDocument<ICollection> | null = await Collection.findById(req.params.collectionId);
+    const collection: HydratedDocument<ICollection> | null = await Collection.findById(req.params.collectionId).exec();
     if (!collection) {
       return res.sendStatus(500);
     }
@@ -48,7 +48,7 @@ export async function publishCollection(req: Request, res: Response) {
       return res.sendStatus(403);
     }
 
-    collection.isPublished = published.success;
+    collection.isPublished = published.success ? published.data : false;
     await collection.save();
     
     return res.sendStatus(200);
