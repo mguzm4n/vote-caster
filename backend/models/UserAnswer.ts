@@ -3,12 +3,16 @@ import mongoose, { Schema } from 'mongoose';
 
 export interface IUserAnswer {
   username: string,
-  answers: IAnswer[],
+  answered: IAnswer[],
+  answeredAt: Date;
+  editedAt?: Date;
 }
 
 export const userAnswerSchema = new Schema<IUserAnswer>({
   username: { type: String, required: true },
-  answers: { type: [answerSchema], required: true },
+  answered: { type: [answerSchema], required: true },
+  answeredAt: { type: Date, required: true },
+  editedAt: Date,
 });
 
 export const UserAnswer = mongoose.model<IUserAnswer>('UserAnswer', userAnswerSchema);

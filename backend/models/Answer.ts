@@ -1,17 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 
 export interface IAnswer {
-  questionIndex: number;
-  alternativeIndex: number;
-  answeredAt: Date;
-  editedAt: Date;
+  questionId: string;
+  alternatives: string[];
 }
 
 export const answerSchema = new Schema<IAnswer>({
-  questionIndex: { type: Number, required: true },
-  alternativeIndex: { type: Number, required: true }, 
-  answeredAt: { type: Date, required: true },
-  editedAt: Date,
+  questionId: { type: String, required: true },
+  alternatives: { type: [String], required: true }, 
 });
 
 export const Answer = mongoose.model<IAnswer>('Answer', answerSchema);

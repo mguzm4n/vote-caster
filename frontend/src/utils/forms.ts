@@ -1,5 +1,10 @@
 import { Question } from "../components/CollectionCard";
 
+export type AnswerRequest = {
+  questionId: string,
+  alternatives: string[]
+}
+
 export function buildAnswerRequest(collectionId: string, questions: Question[], currentForm: FormData) {
   const answersMap = new Map();
   for (let [key, value] of currentForm) {
@@ -18,7 +23,7 @@ export function buildAnswerRequest(collectionId: string, questions: Question[], 
     answersMap.get(retrievedQuestionId).push(value); 
   }
 
-  const reqArray = [];
+  const reqArray: AnswerRequest[] = [];
   for (let [key, value] of Array.from(answersMap)) {
     reqArray.push({
       questionId: key,
