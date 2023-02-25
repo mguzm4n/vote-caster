@@ -68,23 +68,41 @@ const VotingView = () => {
   }
 
   return (
-    <div>
+    <div className="px-12">
       <p>Votación '{collection.name}'</p>
-      <input className="bg-white rounded px-2 py-0.5"
-        type="text" name="username" id="username" value={username} onChange={e => setUsername(e.target.value)} />
-      <form onSubmit={handleSubmit}>
-        {collection.questions.map(question => (
-          <div key={question._id}>
-            {question.name}
+      <div className="flex flex-col items-center">
+        <label htmlFor="username" 
+          className="bg-pink-500
+           -mb-2 z-10 rounded-full text-white px-4 py-0.5 font-bold font-signika">
+          Mi username identificador
+        </label>
+        <input className="peer border
+          outline-none focus:ring-2 focus:ring-violet-700 
+          bg-white rounded px-10 pb-2 py-3 text-center"
+          type="text" placeholder="Mi usuario" name="username" id="username" value={username} onChange={e => setUsername(e.target.value)} />
+      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {collection.questions.map((question, idx) => (<>
+          <div key={question._id} className="">
+            <div>
+              <span className="text-2xl font-signika font-bold">{idx + 1}. </span>
+              {question.name}
+            </div>
             <AlternativesListInput
               multi={question.multipleChoice}
               questionId={question._id}
               alternatives={question.alternatives} />
           </div>
-        ))}
-        <button>Submit</button>
+          <hr />
+          </>))}
+        <button className="transition-colors
+          hover:text-white hover:bg-sky-500
+          text-sky-500 border-2 bg-transparent border-sky-500 rounded text-sm font-bold py-2">
+          Enviar respuestas
+        </button>
       </form>
-      {answerMutation.isError && <div className="bg-pink-300 border border-rose-500 px-2 py-1 rounded">
+      {answerMutation.isError && 
+      <div className="bg-pink-300 border border-rose-500 px-2 py-1 rounded">
         {errorMsg}
       </div>}
     </div>

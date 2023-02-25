@@ -9,14 +9,14 @@ const AlternativeInput = ({ isMulti, alternative, questionId, idx }: Alternative
     <>
       
       {isMulti
-        ? <fieldset className="flex gap-2">
+        ? <fieldset className="flex gap-2 items-center">
             <input className="" 
               name={`question-${questionId}`}
               id={`${questionId}-${idx}`} type="checkbox"
               value={alternative} />
             <label htmlFor={`${questionId}-${idx}`}>{ alternative }</label>
           </fieldset>
-        : <fieldset className="flex gap-2">
+        : <fieldset className="flex gap-2 items-center">
             <input className="" 
               name={`question-${questionId}`}
               id={`${questionId}-${idx}`} type="radio"
