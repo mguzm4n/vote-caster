@@ -1,6 +1,6 @@
 ## Pollify...
 
-## ... the vote-cast app.
+### ... the vote-cast app.
 
 **S**traight-forward, **s**imple and **f**un. :sparkles: 
 
@@ -32,7 +32,7 @@ Create a collection of voting options, questions or any topic being discussed in
 
 ***
 
-### Tech stack
+## Tech stack
 
 The fullstack is written in TypeScript. <img height="12" width="12" src="readme/images/ts.png" /> 
 
@@ -44,6 +44,5 @@ The fullstack is written in TypeScript. <img height="12" width="12" src="readme/
 
 > *Back*
 
-- MongoDB free collections & Mongoose. <img height="12" width="12" src="readme/images/db.png" />
-<img height="12" width="12" src="readme/images/mongodb-leaf.png" />
-- Node.js & Express.js (express-session). <img height="12" width="12" src="readme/images/node.png" /> <img height="12" width="12" src="readme/images/express.png" />
+- MongoDB free collections & Mongoose. <img height="12" width="12" src="readme/images/db.png" /><img height="12" width="12" src="readme/images/mongodb-leaf.png" />
+- Node.js & Express.js (express-session). <img height="12" width="12" src="readme/images/node.png" /><img height="12" width="12" src="readme/images/express.png" />
