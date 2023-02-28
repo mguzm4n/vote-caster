@@ -21,6 +21,7 @@ collectionRouter.put("/:collectionId/publish", collectionController.publishColle
 const questionURI = "/:collectionId/questions";
 collectionRouter.post(`${questionURI}`, questionController.createQuestions);
 collectionRouter.delete(`${questionURI}/:questionId`, questionController.deleteQuestion);
+collectionRouter.put(`${questionURI}/:questionId`, questionController.updateQuestion);
 
 // questions alternatives
 const alternativeURI = questionURI + "/:questionId";

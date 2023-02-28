@@ -58,3 +58,26 @@ export async function deleteQuestion(req: Request, res: Response) {
     res.status(400).send({ message: "Couldn't delete Question item from Collection" });
   }
 }
+
+export async function updateQuestion(req: Request, res: Response) {
+  const { collectionId, questionId } = req.params;
+  const { title, multiChoice, editable } = req.body;
+  try {
+    await Collection.updateOne({ 
+        _id: collectionId,
+        'questions.id': questionId
+      }, {
+        $set: {
+          "questions.$.name": title,
+          "questions.$.multiChoice": multiChoice,
+          "questions.$.editable": editable,
+        }
+      }
+    ).exec();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send({ message: "Couldn't delete Question item from Collection" });
+  }
+}

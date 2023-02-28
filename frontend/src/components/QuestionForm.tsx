@@ -1,5 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { type FormEvent, useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { QuestionState } from "../hooks/questionsReducer";
+import useTextarea from "../hooks/usetextArea";
+import { updateQuestion } from "../services/questionService";
 import AlternativesList from "./AlternativesList";
 import { Question } from "./CollectionCard";
 import SwitchInput from "./SwitchInput";
@@ -9,36 +13,52 @@ interface QuestionFormProps {
 }
 
 const QuestionForm = ({ question }: QuestionFormProps) => {
-  return (
-    <form onSubmit={(e) => {e.preventDefault()}} className="bg-gray-200 rounded p-2 mb-2 flex flex-col items-center gap-4">
+  const { collectionId } = useParams();
+  const questionUpdate = useMutation({
+    mutationFn: (form: FormData) => updateQuestion(question._id, collectionId!, form),
+  })
+
+  const {
+    body: questionTitle, 
+    setBody: setQuestionTitle, 
+    textareaRef 
+  } = useTextarea();
+
+  const onSubmitQuestionForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    questionUpdate.mutate(new FormData(e.currentTarget));
+  }
+
+  useEffect(() => setQuestionTitle(question.name), []);
+
+  return (<div className="bg-gray-200 rounded p-2 pb-4 mb-4 flex flex-col items-center gap-4">
+    <form onSubmit={onSubmitQuestionForm} className="flex flex-col items-center gap-4 w-[90%]">
       <fieldset className="w-full">
         <label htmlFor="name" className="text-sm">Nombre de la opción/pregunta</label>
-        <input autoFocus className="w-full bg-white rounded p-3 focus:outline-none focus:outline-2 focus:outline-indigo-600"
-           id="name" type="text"
-          defaultValue={question.name}
-          placeholder="Escribir título de la pregunta..."
-         />
+        <textarea className="bg-white rounded p-2 block w-full"
+          id="name" name="name"
+          ref={textareaRef} onChange={e => setQuestionTitle(e.currentTarget.value)}
+          value={questionTitle} />
       </fieldset>
       <fieldset className="flex flex-col gap-4 md:flex-row md:gap-8">
-        <div className="flex gap-2 items-center justify-center">
-          <label htmlFor="multiChoice">Permitir alternativa múltiple</label>
+        <div className="flex gap-2 items-center justify-between">
+          <label tabIndex={0} className="focus:underline focus:underline-offset-2 text-sm" htmlFor="multiChoice">Permitir alternativa múltiple</label>
           {/* <input id="multiChoice" type="checkbox" defaultChecked={question.multipleChoice} /> */}
           <SwitchInput nameId="multiChoice"/>
         </div>
-        <div className="flex gap-2 items-center justify-center">  
-          <label htmlFor="editable">Permitir edición</label>
+        <div className="flex gap-2 items-center justify-between">  
+          <label tabIndex={0} className="focus:underline focus:underline-offset-2 text-sm" htmlFor="editable">Permitir edición</label>
           {/* <input id="editable" type="checkbox" defaultChecked={question.multipleChoice} /> */}
           <SwitchInput nameId="editable"/>
         </div>
       </fieldset>
 
-      <AlternativesList questionId={question._id} alternatives={question.alternatives} />
-      
       <button className="border-2 border-sky-500 hover:bg-white hover:text-sky-500 w-1/2 py-1.5 bg-sky-500 text-sm font-semibold text-white rounded-full">
         Guardar!
       </button>
     </form>
-  )
+    <AlternativesList questionId={question._id} alternatives={question.alternatives} />
+  </div>)
 };
 
 export default QuestionForm;

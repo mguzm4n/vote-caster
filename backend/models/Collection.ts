@@ -6,9 +6,10 @@ export interface ICollection {
   name: string;
   createdAt: Date;
   author: string;
-  questions?: IQuestion[];
-  answers?: IUserAnswer[];
+  questions: IQuestion[];
+  answers: IUserAnswer[];
   isPublished: boolean;
+  emails: string[];
 }
 
 const collectionSchema = new Schema<ICollection>({
@@ -18,6 +19,7 @@ const collectionSchema = new Schema<ICollection>({
   questions: { type: [questionSchema] },
   answers: { type: [userAnswerSchema] },
   isPublished: { type: Boolean, default: false },
+  emails: { type: [String] }
 });
 
 export const Collection = mongoose.model<ICollection>('Collection', collectionSchema);
