@@ -18,11 +18,11 @@ export function deleteQuestion(questionId: String, collectionId: string) {
 }
 
 export function updateQuestion(questionId: String, collectionId: string, form: FormData) {
-  const title = form.get('title') as string;
+  const name = form.get('name') as string;
   const multi = form.get('multiChoice');
-  const editable = form.get('multiChoice');
+  const editable = form.get('editable');
   const req: QuestionUpdateRequest = {
-    title: title ? title : '',
+    title: name ? name : '',
     multiChoice: multi ? true : false,
     editable: editable ? true : false,
   };
