@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import { HydratedDocument } from "mongoose";
-import { IAnswer } from "../models/Answer";
+import { z } from "zod";
 import { Collection } from "../models/Collection";
-import { } from "../models/Question";
 
 type AnswerRequest = {
   questionId: string,
@@ -12,7 +10,16 @@ type AnswerRequest = {
 export async function saveAnswers(req: Request, res: Response) {
   const { collectionId } = req.params;
   const answers: AnswerRequest[] = req.body.answers;
-  const username = req.body.username;
+  const { email, username } : { email: string, username: string }= req.body;
+
+  if (!email || !username || username.length <= 3) {
+    return res.status(400).send(`Email and Username are required or are too short`);
+  }
+
+  if (!z.string().email().safeParse(email).success) {
+    return res.status(400).send(`Invalid email`);
+  }
+
   try {
     const collection = await Collection.findById(collectionId);
     if (!collection) {
@@ -21,6 +28,11 @@ export async function saveAnswers(req: Request, res: Response) {
     if (collection.questions?.length !== answers.length) {
       return res.status(400).send(`Collection ${collectionId} require all questions to be answered`);
     }
+
+    if (collection.emails.includes(email)) {
+      return res.status(400).send(`Collection ${collectionId} already registered this email`);
+    }
+    
     for (let answer of answers) {
       const question = collection.questions?.find(q => q._id.toString() === answer.questionId);
       const questionString = `Question with id ${answer.questionId}`
@@ -67,7 +79,7 @@ export async function saveAnswers(req: Request, res: Response) {
     }
 
     await Collection.updateOne({ _id: collectionId }, {
-      $push: { "answers": userAnswer }
+      $push: { "answers": userAnswer, "emails": email }
     }).exec();
 
     return res.sendStatus(200);
