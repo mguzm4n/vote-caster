@@ -9,7 +9,7 @@ export type Question = {
   _id: string,
   name: string,
   multipleChoice: boolean,
-  displaySymbol: string,
+  editable: boolean,
   alternatives: string[],
 };
 

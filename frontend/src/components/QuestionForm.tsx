@@ -1,28 +1,32 @@
 import { useMutation } from "@tanstack/react-query";
-import { type FormEvent, useState, useEffect } from "react";
+import { type FormEvent, useEffect, type Dispatch } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { QuestionState } from "../hooks/questionsReducer";
 import useTextarea from "../hooks/usetextArea";
 import { updateQuestion } from "../services/questionService";
 import AlternativesList from "./AlternativesList";
-import { Question } from "./CollectionCard";
 import SwitchInput from "./SwitchInput";
 
 interface QuestionFormProps {
   question: QuestionState;
+  setTitle: Dispatch<React.SetStateAction<string>>
 }
 
-const QuestionForm = ({ question }: QuestionFormProps) => {
+const QuestionForm = ({ question, setTitle }: QuestionFormProps) => {
   const { collectionId } = useParams();
-  const questionUpdate = useMutation({
-    mutationFn: (form: FormData) => updateQuestion(question._id, collectionId!, form),
-  })
 
   const {
     body: questionTitle, 
     setBody: setQuestionTitle, 
     textareaRef 
   } = useTextarea();
+
+  const questionUpdate = useMutation({
+    mutationFn: (form: FormData) => updateQuestion(question._id, collectionId!, form),
+    onSuccess: (data, form) => {
+        setTitle(form.get('name') as string)
+      }
+  })
 
   const onSubmitQuestionForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,12 +48,12 @@ const QuestionForm = ({ question }: QuestionFormProps) => {
         <div className="flex gap-2 items-center justify-between">
           <label tabIndex={0} className="focus:underline focus:underline-offset-2 text-sm" htmlFor="multiChoice">Permitir alternativa múltiple</label>
           {/* <input id="multiChoice" type="checkbox" defaultChecked={question.multipleChoice} /> */}
-          <SwitchInput nameId="multiChoice"/>
+          <SwitchInput defaultValue={question.multipleChoice} nameId="multiChoice"/>
         </div>
         <div className="flex gap-2 items-center justify-between">  
           <label tabIndex={0} className="focus:underline focus:underline-offset-2 text-sm" htmlFor="editable">Permitir edición</label>
           {/* <input id="editable" type="checkbox" defaultChecked={question.multipleChoice} /> */}
-          <SwitchInput nameId="editable"/>
+          <SwitchInput defaultValue={question.editable} nameId="editable"/>
         </div>
       </fieldset>
 

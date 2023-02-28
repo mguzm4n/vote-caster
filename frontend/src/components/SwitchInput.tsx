@@ -1,9 +1,10 @@
 import { RefObject, useEffect, useState } from "react";
 interface SwitchInputProps {
   nameId: string,
+  defaultValue: boolean,
 }
-const SwitchInput = ({ nameId }: SwitchInputProps) => {
-  const [isOn, setIsOn] = useState(false);
+const SwitchInput = ({ nameId, defaultValue }: SwitchInputProps) => {
+  const [isOn, setIsOn] = useState(defaultValue);
   
   const transitionAmount = isOn ? "translateX(100%)" : "translateX(0%)";
   return (<>

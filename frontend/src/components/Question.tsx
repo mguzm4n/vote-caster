@@ -12,6 +12,7 @@ interface QuestionViewProps {
 }
 
 const QuestionView = ({ question, dispatch }: QuestionViewProps) => {
+  const [questionTitle, setQuestionTitle] = useState(question.name);
   const { collectionId } = useParams();
   const deleteMutation = useMutation({
     mutationFn: () => deleteQuestion(question._id, collectionId!),
@@ -33,8 +34,8 @@ const QuestionView = ({ question, dispatch }: QuestionViewProps) => {
   <div className="flex flex-col gap-1">
     <div className="flex flex-row gap-2">
       <div className="w-[80%]">
-        <h3 className="w-full text-ellipsis bg-white rounded px-2 py-2 focus:outline-none focus:outline-2 focus:outline-indigo-600">
-          {question.name}
+        <h3 className="w-full text-ellipsis overflow-hidden whitespace-nowrap bg-white rounded px-2 py-2 focus:outline-none focus:outline-2 focus:outline-indigo-600">
+          { questionTitle }
         </h3>
       </div>
       <div className="w-[20%] flex justify-center gap-1.5">
@@ -56,7 +57,7 @@ const QuestionView = ({ question, dispatch }: QuestionViewProps) => {
         </button>
       </div>
     </div>
-    {question.expand && <QuestionForm question={question} />}
+    {question.expand && <QuestionForm question={question} setTitle={setQuestionTitle} />}
   </div>)
 };
 
